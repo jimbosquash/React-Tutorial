@@ -90,8 +90,8 @@ function IfcViewer() {
                 }
                 const propsFinder = new OBC.IfcPropertiesFinder(viewer);
                 await propsFinder.init();
-                propsFinder.uiElement.get("queryWindow").visible = true;
-
+                //propsFinder.uiElement.get("queryWindow").visible = true;
+                mainToolbar.addChild(propsFinder.uiElement.get("main"))
 
 
             //fragmentIfcLoader.setup()
