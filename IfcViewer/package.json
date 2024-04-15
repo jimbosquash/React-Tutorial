@@ -4,15 +4,19 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build",
+    "publish": "vercel --prod",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
-    "openbim-components": "^1.4.19",
+    "jszip": "^3.10.1",
+    "lil-gui": "^0.19.2",
+    "openbim-components": "^1.4.21",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "vercel": "^34.0.0",
     "web-ifc": "^0.0.53"
   },
   "devDependencies": {

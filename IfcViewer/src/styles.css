@@ -1143,6 +1143,9 @@ textarea {
 html {
   font-family: 'Plus Jakarta Sans', sans-serif;
 }
+body {
+  overflow: hidden;
+}
 
 ::-webkit-scrollbar {
   width: 8px;
