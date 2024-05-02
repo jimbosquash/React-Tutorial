@@ -3,13 +3,15 @@ import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import "react-pro-sidebar/dist/css/styles.css";
-import { tokens } from "./theme";
+import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import Celebration from "@mui/icons-material/Celebration";
 import Group from "@mui/icons-material/Group";
 import Cable from "@mui/icons-material/Cable";
 import Visibility from "@mui/icons-material/visibility";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -87,6 +89,16 @@ console.log(selected)
             <Box mb="25px">
             </Box>
           )}
+
+<Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item
+              title="Dashboard"
+              to="/barChart"
+              icon={<HelpOutlineOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            </Box>
 
 <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item

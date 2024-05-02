@@ -5,26 +5,40 @@ import Viewer from './components/viewers/viewerMini.tsx';
 import ViewerFun from './components/viewers/viewerFun';
 import ViewerFiber from './components/viewers/viewerFiber';
 import ViewerSpeckle from './components/viewers/viewerSpeckle.jsx';
-import DashBoard from './components/dashboard/dashBoard';
-import Sidebar from './bar';
-import Team from './components/team';
+import DashBoard from './scenes/dashboard/dashBoard';
+import Sidebar from './scenes/global/sideBar';
+import Bar from './scenes/bar';
+import { ColorModeContext } from './theme';
+import {useMode} from "./theme"
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import Topbar from "./scenes/global/topBar"
 
 function App() {
+
+  const [theme,colorMode] = useMode();
+
   return (
-    <BrowserRouter>
-    <div style={{ display: 'flex', height: '100vh' }}> {/* Flex container */}
-      <Sidebar />
-      <main style={{ flex: 1, paddingLeft: '0px' }}> {/* Main content area */}
-        <Routes>
-          <Route path='/dashboard' element={<DashBoard />} />
-          <Route path='/viewerOpenBim' element={<Viewer />} />
-          <Route path='/viewerFiber' element={<ViewerFiber />} />
-          <Route path='/viewerFun' element={<ViewerFun />} />
-          <Route path='/viewerSpeckle' element={<ViewerSpeckle />} />
-        </Routes>
-      </main>
-    </div>
-  </BrowserRouter>
+    <ColorModeContext.Provider value={colorMode}>
+      <ThemeProvider theme={theme}>
+        <CssBaseline/>
+        <BrowserRouter>
+          <div style={{ display: 'flex', height: '100vh' }}> {/* Flex container */}
+            <Sidebar />
+            <main style={{ flex: 1, paddingLeft: '0px' }}> {/* Main content area */}
+              <Topbar/>
+              <Routes>
+                <Route path='/dashboard' element={<DashBoard />} />
+                <Route path='/viewerOpenBim' element={<Viewer />} />
+                <Route path='/viewerFiber' element={<ViewerFiber />} />
+                <Route path='/viewerFun' element={<ViewerFun />} />
+                <Route path='/viewerSpeckle' element={<ViewerSpeckle />} />
+                <Route path='/barChart' element={<Bar />} />
+              </Routes>
+            </main>
+          </div>
+      </BrowserRouter>
+    </ThemeProvider>
+  </ColorModeContext.Provider>
   )
 }
 
