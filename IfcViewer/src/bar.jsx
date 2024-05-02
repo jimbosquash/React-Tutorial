@@ -6,6 +6,10 @@ import "react-pro-sidebar/dist/css/styles.css";
 import { tokens } from "./theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import Celebration from "@mui/icons-material/Celebration";
+import Group from "@mui/icons-material/Group";
+import Cable from "@mui/icons-material/Cable";
+import Visibility from "@mui/icons-material/visibility";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -20,7 +24,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       icon={icon}
     >
       <Typography>{title}</Typography>
-      {/* <Link to={to} /> */}
+      <Link to={to} />
     </MenuItem>
   );
 };
@@ -28,9 +32,9 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
-  const [selected, setSelected] = useState("Viewer");
-
+  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [selected, setSelected] = useState("dashboard");
+console.log(selected)
   return (
     <Box
       sx={{
@@ -58,7 +62,7 @@ const Sidebar = () => {
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
-              margin: "10px 0 20px 0",
+              margin: "10px 0 10px 0",
               color: colors.grey[100],
             }}
           >
@@ -69,8 +73,8 @@ const Sidebar = () => {
                 alignItems="center"
                 ml="15px"
               >
-                <Typography variant="h3" color={colors.grey[100]}>
-                  Sustainer
+                <Typography variant="h4" color={colors.grey[100]}>
+                  SAS
                 </Typography>
                 <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                   <MenuOutlinedIcon />
@@ -84,11 +88,49 @@ const Sidebar = () => {
             </Box>
           )}
 
+<Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item
+              title="Home"
+              to="/dashboard"
+              icon={<HomeOutlinedIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
+
           <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Dashboard"
-              to="/"
-              icon={<HomeOutlinedIcon />}
+              title="OpenBim"
+              to="/viewerOpenBim"
+              icon={<Visibility />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
+
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item
+              title="Fiber"
+              to="/viewerFiber"
+              icon={<Cable />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item
+              title="Speckle"
+              to="/viewerSpeckle"
+              icon={<Group />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item
+              title="Fun"
+              to="/ViewerFun"
+              icon={<Celebration />}
               selected={selected}
               setSelected={setSelected}
             />

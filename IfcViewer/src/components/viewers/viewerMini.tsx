@@ -6,6 +6,7 @@ import * as FRAGS from "bim-fragment";
 import JSZip from "jszip";
 import { WebGLRenderer } from "three";
 import GUI from 'lil-gui'
+import { IfcPropertiesUtils } from "openbim-components";
 
 const viewer = new OBC.Components();
 
@@ -15,11 +16,15 @@ export default function IfcViewer() {
     const containerRef = useRef<HTMLDivElement>(null);
   
     useEffect(() => {
+      
       async function loadModelAndSetupScene() {
         if (!containerRef.current) {
+          console.log('nothing found')
           return;
-        }
         
+        }
+        console.log(containerRef.current)
+
         setupViewer(viewer,containerRef.current);
   
         // set up fragment loader
@@ -31,12 +36,19 @@ export default function IfcViewer() {
         
         const mainToolbar = new OBC.Toolbar(viewer, {
           name: "Main Toolbar",
-          position: "left",
+          position: "bottom",
         });
+        mainToolbar.visible = true;
+        mainToolbar.active = true;
         viewer.ui.addToolbar(mainToolbar);  
-        var model = await loadDemoFragment(fragments);
+        createPropertyViewerPanel(fragmentIfcLoader,mainToolbar);     
+        //var model = await loadDemoFragment(fragments);
+
+        var model = await loadDemoIfcAsFragments(viewer,fragments,fragmentIfcLoader)
+
+
         setUpHighlightSelection(containerRef.current,model);
-        var p = model.getProperties
+        var p = await model?.getLocalProperties()
         console.log(p)
       }
   
@@ -77,7 +89,27 @@ export default function IfcViewer() {
     );
   }
 
-  
+  async function loadDemoIfcAsFragments(
+    viewer: OBC.Components,
+    fragments: OBC.FragmentManager,
+    fragmentIfcLoader: OBC.FragmentIfcLoader
+  ): Promise<FRAGS.FragmentsGroup | undefined> {
+    console.log('attempting to load test ifc file')
+    try {
+      const file = await fetch("../../../resources/ZEN.ifc");
+      const data = await file.arrayBuffer();
+      const buffer = new Uint8Array(data);
+      const loadedModel = await fragmentIfcLoader.load(buffer);
+      viewer.scene.get().add(loadedModel);
+      console.log(viewer.scene);
+      return loadedModel;
+    } catch (error) {
+      console.error("Failed to load model:", error);
+    }
+    return undefined;
+  }
+
+
 function setupViewer(viewer: OBC.Components, container: HTMLDivElement) {
 
     const rendererComponent = new OBC.PostproductionRenderer(viewer,container);
@@ -97,27 +129,28 @@ function setupViewer(viewer: OBC.Components, container: HTMLDivElement) {
     cameraComponent.controls.setLookAt(10, 10, 10, 0, 0, 0);
     viewer.camera = cameraComponent;
     viewer.camera.enabled;
-    var grid =new OBC.SimpleGrid(viewer, new THREE.Color('grey'));
-  
+    var grid =new OBC.SimpleGrid(viewer, new THREE.Color('#A0C3AF'));
+    scene.background = new THREE.Color('#4D534F');
+
     const material = new THREE.MeshStandardMaterial()
   material.roughness = 0.7
 
-    const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(20, 20),
-    material
-    )
+    // const plane = new THREE.Mesh(
+    // new THREE.PlaneGeometry(20, 20),
+    // material
+    // )
   
 
-  const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.5, 32, 32),
-    material)
+  // const sphere = new THREE.Mesh(
+  //   new THREE.SphereGeometry(0.5, 32, 32),
+  //   material)
   
-  plane.rotation.x = - Math.PI * 0.5
-  plane.position.y = - 0.5
-  plane.position.x = 2
-  plane.position.z = -2.5
+  // plane.rotation.x = - Math.PI * 0.5
+  // plane.position.y = - 0.5
+  // plane.position.x = 2
+  // plane.position.z = -2.5
   
-  scene.add(sphere, plane)
+  // scene.add(sphere, plane)
   console.log(scene)
   }
 
@@ -135,10 +168,14 @@ function setupViewer(viewer: OBC.Components, container: HTMLDivElement) {
     return model;
   }
 
-async function setUpHighlightSelection(container : HTMLDivElement, mmodel : FRAGS.FragmentsGroup) {
-
+async function setUpHighlightSelection(container : HTMLDivElement, model : FRAGS.FragmentsGroup | undefined) {
+if(model === undefined)
+{
+  console.log('model is undefined')
+  return 
+}
     const propsProcessor = new OBC.IfcPropertiesProcessor(viewer);
-    propsProcessor.process(mmodel);
+    propsProcessor.process(model);
 const propsManager = new OBC.IfcPropertiesManager(viewer);
 propsProcessor.propertiesManager = propsManager;
 
@@ -215,4 +252,19 @@ propsProcessor.propertiesManager = propsManager;
         }
   
         container.addEventListener('click', (event) => highlightOnClick(event));
+  }
+
+
+  async function createPropertyViewerPanel(fragmentIfcLoader: OBC.FragmentIfcLoader, mainToolbar: OBC.Toolbar){
+  
+    const ifcButton = fragmentIfcLoader.uiElement.get("main");
+    if (ifcButton instanceof OBC.Button) {
+      console.log(ifcButton);
+      mainToolbar.addChild(ifcButton);
+    }
+    const propsFinder = new OBC.IfcPropertiesFinder(viewer);
+    const propsp = new OBC.IfcPropertiesFinder(viewer);
+    await propsFinder.init();
+    //propsFinder.uiElement.get("queryWindow").visible = true;
+    mainToolbar.addChild(propsFinder.uiElement.get("main"));
   }

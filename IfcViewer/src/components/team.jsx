@@ -1,13 +1,14 @@
 import { Box, Typography, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
-import { tokens } from "./theme.js";
+import { tokens } from "../theme.js";
+// import { mockDataTeam } from "../../resources/ModuleExample";
+
 import AdminPanelSettingsOutlineIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import LockOpenOutlineIcon from "@mui/icons-material/LockOpenOutlined";
 import SecurityOutlineIcon from "@mui/icons-material/SecurityOutlined";
 const Team = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  var mockDataTeam
 
   const columns = [
     { field: "id", headerName: "ID" },

@@ -52,14 +52,15 @@ function IfcViewer() {
       // absolute: true}
 
       
-      var model = await loadDemoFragment(viewer,fragments);
+      // var model = await loadDemoFragment(viewer,fragments);
+      var model = await loadDemoIfcAsFragments(viewer,fragments,fragmentIfcLoader)
       //var prop = model.getProperties();
       console.log(model);
-      console.log(await model.getProperties(11));
-      const classifier = new OBC.FragmentClassifier(viewer);
-      classifier.byStorey(model);
-      classifier.byEntity(model);
-      classifier.byModel
+      // console.log(await model.getProperties(11));
+      // const classifier = new OBC.FragmentClassifier(viewer);
+      // classifier.byStorey(model);
+      // classifier.byEntity(model);
+      // classifier.byModel
 
       const modelTree = new OBC.FragmentTree(viewer);
       await modelTree.init();
@@ -324,6 +325,7 @@ async function loadDemoIfcAsFragments(
   fragments: OBC.FragmentManager,
   fragmentIfcLoader: OBC.FragmentIfcLoader
 ): Promise<FRAGS.FragmentsGroup | undefined> {
+  console.log('attempting to load test ifc file')
   try {
     const file = await fetch("../../../resources/ZEN.ifc");
     const data = await file.arrayBuffer();
