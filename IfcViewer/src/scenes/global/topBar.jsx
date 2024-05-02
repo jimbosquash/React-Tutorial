@@ -22,21 +22,13 @@ const Topbar = () => {
                 <IconButton type="button" sx={{ p: 1}}>
                     <SearchIcon/>
                 </IconButton>
-
-
             </Box>
             <Box display="flex">
-            <IconButton>
-                <NotificationsOutlinedIcon/>
+            <IconButton onClick={colorMode.toggleColorMode}>
+                {theme.palette.mode === "dark" ?(<DarkModeOutlinedIcon/>) : (<LightModeOutlinedIcon/>)}
             </IconButton>
             <IconButton>
                 <SettingsOutlinedIcon/>
-            </IconButton>
-            <IconButton>
-                <PersonOutlinedIcon/>
-            </IconButton>
-            <IconButton onClick={colorMode.toggleColorMode}>
-                {theme.palette.mode === "dark" ?(<DarkModeOutlinedIcon/>) : (<LightModeOutlinedIcon/>)}
             </IconButton>
             </Box>
 
