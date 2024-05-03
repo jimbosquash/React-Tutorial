@@ -27,6 +27,7 @@ function App() {
             <main style={{ flex: 1, paddingLeft: '0px' }}> {/* Main content area */}
               <Topbar/>
               <Routes>
+                <Route path='/' element={<DashBoard />} />
                 <Route path='/dashboard' element={<DashBoard />} />
                 <Route path='/viewerOpenBim' element={<Viewer />} />
                 <Route path='/viewerFiber' element={<ViewerFiber />} />
