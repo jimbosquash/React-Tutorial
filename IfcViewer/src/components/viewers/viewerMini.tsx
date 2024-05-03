@@ -10,7 +10,7 @@ import { IfcPropertiesUtils } from "openbim-components";
 
 const viewer = new OBC.Components();
 
-const gui = new GUI();
+// const gui = new GUI();
 
 export default function IfcViewer() {
     const containerRef = useRef<HTMLDivElement>(null);
@@ -207,11 +207,11 @@ propsProcessor.propertiesManager = propsManager;
       highlighter.zoomToSelection = true;
       highlighter.fillEnabled = true;
   
-      gui.addColor(highlightMaterial,'color').name('Fill color')
-      gui.addColor(outlineProps,'color').name('outline color')
-      gui.add(highlightMaterial,'opacity').min(0).max(1).step(0.01);
-      gui.add(highlighter,'zoomToSelection')
-      gui.add(highlighter,'fillEnabled')
+      // gui.addColor(highlightMaterial,'color').name('Fill color')
+      // gui.addColor(outlineProps,'color').name('outline color')
+      // gui.add(highlightMaterial,'opacity').min(0).max(1).step(0.01);
+      // gui.add(highlighter,'zoomToSelection')
+      // gui.add(highlighter,'fillEnabled')
 
       let lastSelection;
       let singleSelection = {value: true,};

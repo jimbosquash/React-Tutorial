@@ -7,6 +7,8 @@ import { tokens } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import Celebration from "@mui/icons-material/Celebration";
+import InsertChart from "@mui/icons-material/InsertChart";
+
 import Group from "@mui/icons-material/Group";
 import Cable from "@mui/icons-material/Cable";
 import Visibility from "@mui/icons-material/visibility";
@@ -143,6 +145,16 @@ console.log(selected)
               title="Fun"
               to="/ViewerFun"
               icon={<Celebration />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+          </Box>
+
+          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+            <Item
+              title="Table"
+              to="/table"
+              icon={<InsertChart />}
               selected={selected}
               setSelected={setSelected}
             />
