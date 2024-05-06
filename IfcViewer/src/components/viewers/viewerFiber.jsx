@@ -42,29 +42,3 @@ export default function ViewerFiber()
     </Canvas>
       );
 }
-
-
-
-//     useEffect(() => {
-// // set up of attaching new ifc things to fiber
-
-// async function loadModelAndSetupScene() {
-//     if (!containerRef) {
-//       console.log('no current found')
-//         return;
-//     }
-//     console.log(containerRef.current)
-
-//     // setupViewer(viewer,containerRef.current);
-
-//     // // set up fragment loader
-//     // var fragments = new OBC.FragmentManager(viewer);
-//     // var fragmentIfcLoader = new OBC.FragmentIfcLoader(viewer);
-//     // fragmentIfcLoader.settings.webIfc.COORDINATE_TO_ORIGIN = true;
-//     // fragmentIfcLoader.settings.webIfc.OPTIMIZE_PROFILES = true;
-//   }
-
-//   loadModelAndSetupScene();
-//         //console.log(containerRef.current)
-
-//     })

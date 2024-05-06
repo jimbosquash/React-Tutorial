@@ -1,12 +1,12 @@
 
 import { useThree } from "@react-three/fiber";
 import * as WEBIFC from "web-ifc";
-import { Fragment, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import * as THREE from "three";
 import * as OBC from "openbim-components";
 import React from "react";
 import * as FRAGS from "bim-fragment";
-import { Color, MeshStandardMaterial } from "three";
+import { MeshStandardMaterial } from "three";
 import { IfcPropertiesUtils } from "openbim-components";
 
 
@@ -42,6 +42,7 @@ export default function HandleIFC({ containerRef, path, name, propertiesPath}) {
             components.init()
 
             const fragmentIfcLoader = new OBC.FragmentIfcLoader(components)
+            console.log(fragmentIfcLoader.settings)
             var fragmentManager = new OBC.FragmentManager(components);
 
             fragmentIfcLoader.settings.webIfc.COORDINATE_TO_ORIGIN = true

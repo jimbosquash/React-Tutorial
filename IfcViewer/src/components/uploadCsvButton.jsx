@@ -29,14 +29,14 @@ function UploadCsvButton({ onFileLoad }) {
 
     const handleClick = () => {
         console.log("click")
-        document.getElementById('fileInput').click();
+        document.getElementById('csvFileInput').click();
     };
 
     return (
         <div>
             <input
                 type="file"
-                id="fileInput"
+                id="csvFileInput"
                 style={{ display: 'none' }}
                 onChange={handleFileChange}
                 accept=".csv"

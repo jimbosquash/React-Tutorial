@@ -12,6 +12,7 @@ import ElementGrid from "../../components/ElementGrid";
 import {useState} from "react";
 import UploadCsvButton from "../../components/uploadCsvButton";
 import MyResponsivePie from "../../components/pie";
+import UploadIfcButton from "../../components/uploadIfcButton";
 
 
 
@@ -19,10 +20,16 @@ export default function DashBoard(){
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [csvData,setCsvData] = useState([]);
+    const [ifcModel,setIfcModel] = useState([]);
 
     const handleFileLoad = (loadedFile) => {
         console.log("Received data", loadedFile)
         setCsvData(loadedFile);
+    }
+
+    const handleIFCLoad = (loadedifcFile) => {
+        console.log("upload complete")
+        setIfcModel(loadedifcFile);
     }
 
   return<>
@@ -37,6 +44,9 @@ export default function DashBoard(){
             <Header title="Module Data Assistant" subtitle="Display ifc data in meaningful ways" />
             <Box>
                 <UploadCsvButton onFileLoad={handleFileLoad}/>
+            </Box>
+            <Box>
+                <UploadIfcButton onIfcFileLoad={handleIFCLoad} />
             </Box>
         </Box>
 
@@ -119,7 +129,7 @@ export default function DashBoard(){
             {/* //Row 2 */}
             <Box
                 gridColumn="span 3"
-                gridRow="span 3"
+                gridRow="span 2"
                 backgroundColor={colors.primary[400]}
                 >
                 <Box
@@ -134,7 +144,7 @@ export default function DashBoard(){
                         </Typography>
                     </Box>
                 </Box>
-                <Box height="100%" ml="10px" mb="-70px" width={"90%"} height={"90%"}>
+                <Box ml="10px" mb="-70px" width={"90%"} height={"90%"}>
                     {/* <Bar isDashboard={true}/> */}
                     <MyResponsivePie/>
                 </Box>
@@ -142,7 +152,7 @@ export default function DashBoard(){
 
             <Box
                 gridColumn="span 4"
-                gridRow="span 3"
+                gridRow="span 2"
                 backgroundColor={colors.primary[400]}
                 >
                 <Box
@@ -157,7 +167,7 @@ export default function DashBoard(){
                         </Typography>
                     </Box>
                 </Box>
-                <Box height="100%" ml="10px" mb="-70px" width={"90%"} height={"90%"}>
+                <Box ml="10px" mb="-70px" width={"90%"} height={"90%"}>
                     <Bar isDashboard={true}/>
                 </Box>
             </Box>
@@ -165,7 +175,7 @@ export default function DashBoard(){
             
             <Box
                 gridColumn={'span 5'}
-                gridRow={'span 3'}
+                gridRow={'span 2'}
                 backgroundColor={colors.primary[400]}
                 display='flex'
                 alignContent="center"
