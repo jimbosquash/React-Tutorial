@@ -84,7 +84,7 @@ export default function HandleIFC({ containerRef, path, name, propertiesPath}) {
                     }
                   }
                 )
-                console.log(res)
+                console.log("Handleing ifc file now... ",res)
 
 
                 for(var i = 0; i < model.children.length; i++)

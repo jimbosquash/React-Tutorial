@@ -1,26 +1,29 @@
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
-import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
-import UploadOutlinedIcon from "@mui/icons-material/UploadOutlined";
-import StatBox from "../../components/statBox.jsx";
-import EmailIcon from "@mui/icons-material/Email";
-import Team from "../../components/team";
+import { Box, Typography, useTheme } from "@mui/material";
 import Bar from "../../components/BarChart";
 import "./dashBoardStyles.css"
 import ElementGrid from "../../components/ElementGrid";
-import {useState} from "react";
+import {useState, useEffect, useRef} from "react";
 import UploadCsvButton from "../../components/uploadCsvButton";
 import MyResponsivePie from "../../components/pie";
 import UploadIfcButton from "../../components/uploadIfcButton";
-
-
+import SummaryRow from "./summaryRow";
+import SetUpIfcComponents from "../../components/setUpIfcComponents";
 
 export default function DashBoard(){
+    const containerRef = useRef<HTMLElement>(null);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const [csvData,setCsvData] = useState([]);
     const [ifcModel,setIfcModel] = useState([]);
+    const [obcComponents, setObcComponents] = useState([])
+
+    useEffect(() => {
+        const components = SetUpIfcComponents(containerRef);
+        components.uiEnabled = false;
+        setObcComponents(components);
+    },[])
 
     const handleFileLoad = (loadedFile) => {
         console.log("Received data", loadedFile)
@@ -46,7 +49,7 @@ export default function DashBoard(){
                 <UploadCsvButton onFileLoad={handleFileLoad}/>
             </Box>
             <Box>
-                <UploadIfcButton onIfcFileLoad={handleIFCLoad} />
+                <UploadIfcButton onIfcFileLoad={handleIFCLoad}/>
             </Box>
         </Box>
 
@@ -56,80 +59,16 @@ export default function DashBoard(){
          className="scrollable-container"
             display='grid'
             height={"100%"}
+
             gridTemplateColumns={"repeat(12,1fr)"}
             gridAutoRows='140px'
             padding='20px'
             gap='20px'>
-
-        {/* {Row 1} */}
-        
-            <Box
-            gridColumn={'span 4'}
-            backgroundColor={colors.primary[400]}
-            display='flex'
-            alignContent="center"
-            justifyContent="center"
-            >
-                <StatBox
-                title="597"
-                subtitle="out going"
-                progress="0.75"
-                increase="+14%"
-                icon={
-                    <EmailIcon
-                        sx={{ color:colors.greenAccent[600],fontSize: "26px"}}
-                    />
-                }
-                />
-
-            </Box>
-
-            <Box
-            gridColumn={'span 4'}
-            backgroundColor={colors.primary[400]}
-            display='flex'
-            alignContent="center"
-            justifyContent="center"
-            >
-                <StatBox
-                title="43,546"
-                subtitle="incoming mail"
-                progress="0.12"
-                increase="+54%"
-                icon={
-                    <EmailIcon
-                        sx={{ color:colors.greenAccent[600],fontSize: "26px"}}
-                    />
-                }
-                />
-            </Box>
-
-            <Box
-            gridColumn={'span 4'}
-            backgroundColor={colors.primary[400]}
-            display='flex'
-            alignContent="center"
-            justifyContent="center"
-            >
-                <StatBox
-                title="1,432"
-                subtitle="calls going"
-                progress="0.86"
-                increase="-12%"
-                icon={
-                    <EmailIcon
-                        sx={{ color:colors.greenAccent[600],fontSize: "26px"}}
-                    />
-                }
-                />
-            </Box>
-
-
-
+        <SummaryRow data={ifcModel} components={obcComponents}/>
             {/* //Row 2 */}
             <Box
-                gridColumn="span 3"
-                gridRow="span 2"
+                gridColumn="span 6"
+                gridRow="span 3"
                 backgroundColor={colors.primary[400]}
                 >
                 <Box
@@ -151,8 +90,8 @@ export default function DashBoard(){
             </Box>
 
             <Box
-                gridColumn="span 4"
-                gridRow="span 2"
+                gridColumn="span 6"
+                gridRow="span 3"
                 backgroundColor={colors.primary[400]}
                 >
                 <Box
@@ -173,7 +112,7 @@ export default function DashBoard(){
             </Box>
 
             
-            <Box
+            {/* <Box
                 gridColumn={'span 5'}
                 gridRow={'span 2'}
                 backgroundColor={colors.primary[400]}
@@ -196,9 +135,7 @@ export default function DashBoard(){
                 <Box height="250px" width={"90%"}>
                     <ElementGrid data={csvData} isDashboard={true}/>
                 </Box>
-                </Box>
-
-           
+            </Box> */}
         </Box>
     </Box>
   </>

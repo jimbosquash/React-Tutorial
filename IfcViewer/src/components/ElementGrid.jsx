@@ -55,7 +55,7 @@ export default function ElementGrid({ isDashboard = false, data }) {
   },[data] )
 
   return (
-      <Box m='20px'width='100%'>
+      <Box m='20px'width='100%' maxWidth="80vw" overflow="hidden">
           <Box
         m="40px 0 0 0"
         width="100%"
