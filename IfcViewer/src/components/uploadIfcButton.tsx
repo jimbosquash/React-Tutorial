@@ -11,7 +11,7 @@ import { GetBuildingElements } from "../utilities/IfcUtilities";
 
 async function readIfcFile(file: File, containerRef : React.RefObject<HTMLElement | undefined>) : Promise<FRAGS.FragmentsGroup | undefined> {
     const components = SetUpIfcComponents(containerRef);
-    components.uiEnabled = false;
+    //components.uiEnabled = false;
 
     const fragmentIfcLoader = components.tools.get(OBC.FragmentIfcLoader);
 

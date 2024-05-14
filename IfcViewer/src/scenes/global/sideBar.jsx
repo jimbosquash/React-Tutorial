@@ -92,7 +92,7 @@ console.log(selected)
             </Box>
           )}
 
-<Box paddingLeft={isCollapsed ? undefined : "10%"}>
+{/* <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Dashboard"
               to="/barChart"
@@ -100,11 +100,11 @@ console.log(selected)
               selected={selected}
               setSelected={setSelected}
             />
-            </Box>
+            </Box> */}
 
 <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
-              title="Home"
+              title="Dashboard"
               to="/dashboard"
               icon={<HomeOutlinedIcon />}
               selected={selected}

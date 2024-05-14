@@ -9,34 +9,12 @@ import ListAlt from "@mui/icons-material/ListAlt";
 import Timer from "@mui/icons-material/Timer";
 import { useEffect } from "react";
 import * as FRAGS from "bim-fragment";
-import { buildingElement, GetBuildingElements } from "../../utilities/IfcUtilities";
+import { buildingElement, GetBuildingElements, getUniqueElementCount } from "../../utilities/IfcUtilities";
 import * as OBC from "openbim-components";
 import { Email } from "@mui/icons-material";
 
 
-function getEPElementCount(elements: buildingElement[])
-{
-    return elements.filter(element => element.properties.some(property => property.value.includes("EP-"))).length;
-}
-function getUniqueElementCount(elements: buildingElement[])
-{
-    const groupedByProductCode: Record<string, buildingElement[]> = {};
 
-
-    elements.forEach(element => {
-        const codeFilter = element.properties.find(prop => prop.name ==="Productcode")
-        if(codeFilter)
-        {
-            const productCode = codeFilter.value;
-            if(!groupedByProductCode[productCode]) {
-                groupedByProductCode[productCode] = []
-            }
-            groupedByProductCode[productCode].push(element)
-
-        }
-    })
-    return Object.keys(groupedByProductCode).length;
-}
 
 
 
@@ -54,12 +32,14 @@ export default function SummaryRow({data, components}) {
         display: "flex",
         alignContent: "center",
         justifyContent:"center",
-        height: "120px"
+        // height: "120px"
     }
 
 
     useEffect(() => {
         async function asyncGetElements() {
+            if(!data || !components)
+                return;
             var newBuildingElements = await GetBuildingElements(data, components)
             setBuildingElements(newBuildingElements);
         }

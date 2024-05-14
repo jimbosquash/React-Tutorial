@@ -12,10 +12,27 @@ import {useMode} from "./theme"
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import Topbar from "./scenes/global/topBar"
 import ElementTable from './scenes/elementTable';
+import {useState} from "react"
 
 function App() {
-
+  const [ifcFile,setIfcFile] = useState();
+  const [components,setComponents] = useState();
   const [theme,colorMode] = useMode();
+
+  const handleIFCLoad = (loadedifcFile) => {
+    if(!loadedifcFile)
+      return;
+    console.log("App: upload complete")
+    setIfcFile(loadedifcFile);
+    // add to bar chart display
+}
+const handleComponentsLoad = (newComponents) => {
+  if(!newComponents)
+    return;
+  console.log("App: upload complete")
+  setComponents(newComponents);
+  // add to bar chart display
+}
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -27,14 +44,14 @@ function App() {
             <main style={{ flex: 1, paddingLeft: '0px' }}> {/* Main content area */}
               <Topbar/>
               <Routes>
-                <Route path='/' element={<DashBoard />} />
-                <Route path='/dashboard' element={<DashBoard />} />
+                <Route path='/' element={<DashBoard onComponentsSet={handleComponentsLoad} onIfcFileLoad={handleIFCLoad} />} />
+                <Route path='/dashboard' element={<DashBoard  onComponentsSet={handleComponentsLoad} onIfcFileLoad={handleIFCLoad}  />} />
                 <Route path='/table' element={<ElementTable />} />
                 <Route path='/viewerOpenBim' element={<Viewer />} />
-                <Route path='/viewerFiber' element={<ViewerFiber />} />
+                <Route path='/viewerFiber' element={<ViewerFiber components={components} ifcModel={ifcFile} />} />
                 <Route path='/viewerFun' element={<ViewerFun />} />
                 <Route path='/viewerSpeckle' element={<ViewerSpeckle />} />
-                <Route path='/barChart' element={<Bar />} />
+                {/* <Route path='/barChart' element={<Bar />} /> */}
               </Routes>
             </main>
           </div>

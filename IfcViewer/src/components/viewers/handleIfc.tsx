@@ -10,6 +10,49 @@ import { MeshStandardMaterial } from "three";
 import { IfcPropertiesUtils } from "openbim-components";
 
 
+export function LoadModel({ifcModel}) {
+    console.log("loading begins: ",ifcModel)
+    const setTempModel = () => {
+        console.log("temp model being set")
+        const geometry = new THREE.BoxGeometry()
+        const material = new THREE.MeshBasicMaterial()
+        return new THREE.Mesh(geometry, material)
+    }
+
+    // Get the scene from the underlying instance of threejs
+    const { scene } = useThree()
+    // State that will contain the rendered model at everytime, starts with a temporary cube
+    const [meshObj, setMeshObj] = useState<any>(setTempModel())
+
+    // On component mount, load the IFC model
+    // On component unmount, clear the IFC model
+    useEffect(() => {
+        setMeshObj(setTempModel());
+
+        if (ifcModel) {
+            console.log("seting meshes: ",ifcModel)
+            setMeshObj(ifcModel);
+        }
+        else
+        {
+            console.log("no container ref")
+        }
+
+        return () => {
+            console.log('removing model')
+            // IMPORTANT NOTE: It might be wise to use the ".dispose" method available from OBC components to dispose all OBC elements, not just the model in threejs
+            if (ifcModel && scene.children.includes(ifcModel)) {
+                scene.remove(ifcModel);
+            }
+        }
+    },[ifcModel])
+
+    // Idea: might be possible to use <Suspense> here and create a loading state, instead of the temp cube
+    console.log("Load Model function: ", meshObj)
+    return <primitive object={meshObj} />;
+}
+
+
 
 export default function HandleIFC({ containerRef, path, name, propertiesPath}) {
 
@@ -30,7 +73,7 @@ export default function HandleIFC({ containerRef, path, name, propertiesPath}) {
     useEffect(() => {
         // If the canvas exists
         if (containerRef.current) {
-            console.log(containerRef.current)
+            //console.log(containerRef.current)
             // Setup OBC as per example
             const components = new OBC.Components()
             components.scene = new OBC.SimpleScene(components)
@@ -42,7 +85,7 @@ export default function HandleIFC({ containerRef, path, name, propertiesPath}) {
             components.init()
 
             const fragmentIfcLoader = new OBC.FragmentIfcLoader(components)
-            console.log(fragmentIfcLoader.settings)
+            //console.log(fragmentIfcLoader.settings)
             var fragmentManager = new OBC.FragmentManager(components);
 
             fragmentIfcLoader.settings.webIfc.COORDINATE_TO_ORIGIN = true
@@ -55,7 +98,7 @@ export default function HandleIFC({ containerRef, path, name, propertiesPath}) {
                 const buffer = new Uint8Array(data);
               
                 const model =  await fragments.load(buffer);
-                console.log(model)
+                //console.log(model)
                 setMeshObj(model);
 
                 
@@ -63,7 +106,7 @@ export default function HandleIFC({ containerRef, path, name, propertiesPath}) {
                 const properties = await fetch(propertiesPath);
                 model.setLocalProperties(await properties.json());
 
-                console.log(model)
+                //console.log(model)
                 const map: { [expressID: number]: Set<number> } = {};
 
                 var res = await IfcPropertiesUtils.getRelationMap(model,WEBIFC.IFCRELDEFINESBYPROPERTIES,async (relatingID, relatedIDs) => {
@@ -84,9 +127,7 @@ export default function HandleIFC({ containerRef, path, name, propertiesPath}) {
                     }
                   }
                 )
-                console.log("Handleing ifc file now... ",res)
-
-
+                //console.log("Handleing ifc file now... ",res)
                 for(var i = 0; i < model.children.length; i++)
                 {
 
@@ -120,8 +161,8 @@ export default function HandleIFC({ containerRef, path, name, propertiesPath}) {
                     }
                 }
 
-                return model;
-              }
+            return model;
+            }
 
             // Load the fragments
              //loadIfcAsFragments()
@@ -145,6 +186,8 @@ export default function HandleIFC({ containerRef, path, name, propertiesPath}) {
 
     //Return a primitive containg the model set in the meshObj state, initially it'll be the cube, then the IFC
     // Idea: might be possible to use <Suspense> here and create a loading state, instead of the temp cube
+    console.log("handleIfc meshObj", meshObj)
+
     return (
         <primitive object={meshObj} />
     )
