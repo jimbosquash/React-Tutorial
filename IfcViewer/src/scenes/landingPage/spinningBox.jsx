@@ -8,6 +8,12 @@ import { defaultGetRowsToExport } from "@mui/x-data-grid/internals"
 import { green } from "@mui/material/colors"
 import UploadIfcButton from "../../components/uploadIfcButton"
 import {Button, Fab, useTheme} from "@mui/material";
+import Typography from '@mui/material/Typography';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Card from '@mui/material/Card';
+
+
 import {tokens} from "../../theme"
 import { useEffect } from "react"
 
@@ -59,7 +65,8 @@ export default function SpinnningBox() {
 
 
 function FloatingButton({parentMesh}) {
-    const [showMessage,setShowMessage] = useState(0);
+    const card = useRef();
+    const [showMessage,setShowMessage] = useState();
     const [zoom,setZoom] = useState(0);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
@@ -81,13 +88,46 @@ function FloatingButton({parentMesh}) {
                 setShowMessage(true)}} 
             onMouseLeave={() => {
                 setZoom(false)
-                setShowMessage(false)}}>
+                setTimeout(() => {
+                    console.log(card.current);
+                    if (!document.querySelector(':hover').classList.contains('MuiCard-root')) {
+                        console.log(document.querySelector(':hover').classList);
+                        setShowMessage(false);
+                    }
+                }, 200)}}>
                 <Add/>
             </Fab>
+            {showMessage && <BasicCard />}
             
         </div>
     );
 }
+
+
+export function BasicCard() {
+
+    return (
+      <Card sx={{ minWidth: 275 }}>
+        <CardContent>
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+            CE-1234-0901-0001
+          </Typography>
+          <Typography variant="h5" component="div">
+            {/* be{bull}nev{bull}o{bull}lent */}
+          </Typography>
+          <Typography sx={{ mb: 1.5 }} color="text.secondary">
+            LVLQ 33
+          </Typography>
+          <Typography variant="body2">
+            This is over 20kg and should be handeled by multiple people <br />
+          </Typography>
+        </CardContent>
+        <CardActions>
+          <Button size="small">Comment</Button>
+        </CardActions>
+      </Card>
+    );
+  }
 
 
 // <Button 
