@@ -1,10 +1,8 @@
 
-import {Button, useTheme} from "@mui/material";
-import React, { useRef } from "react";
-import UploadOutlinedIcon from "@mui/icons-material/UploadOutlined";
 import * as OBC from "openbim-components";
 import * as FRAGS from "bim-fragment";
 import * as WEBIFC from "web-ifc";
+
 
 export interface buildingElement {
     expressID: number;
@@ -12,6 +10,8 @@ export interface buildingElement {
     type: number;
     properties: {name: string, value: string}[]
 }
+
+
 
 export function getStationBarChartArray(elements: buildingElement[]) : any[]
 {

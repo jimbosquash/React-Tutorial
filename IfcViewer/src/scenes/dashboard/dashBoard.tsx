@@ -3,9 +3,7 @@ import { tokens } from "../../theme";
 import { Box, Typography, useTheme } from "@mui/material";
 import Bar from "../../components/BarChart";
 import "./dashBoardStyles.css"
-import ElementGrid from "../../components/ElementGrid";
 import {useState, useEffect, useRef} from "react";
-import UploadCsvButton from "../../components/uploadCsvButton";
 import MyResponsivePie from "../../components/pie";
 import UploadIfcButton from "../../components/uploadIfcButton";
 import SummaryRow from "./summaryRow";
@@ -16,11 +14,10 @@ import React from "react";
 import * as FRAGS from "bim-fragment";
 
 
-export default function DashBoard({ onIfcFileLoad,onComponentsSet}){
+export default function DashBoard({loadedIfcModel}){
     const containerRef = useRef<HTMLElement>(null);
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
-    const [csvData,setCsvData] = useState([]);
     const [ifcModel,setIfcModel] = useState<FRAGS.FragmentsGroup>();
     const [barChartData,setBarChartData] = useState<any[]>([]);
     const [obcComponents, setObcComponents] = useState<OBC.Components>();
@@ -30,7 +27,6 @@ export default function DashBoard({ onIfcFileLoad,onComponentsSet}){
     const boxStyle = { 
         backgroundColor: colors.primary[400],
         borderRadius: 4,
-        // display: "flex",
         justifyContent:"center",
     }
 
@@ -40,17 +36,13 @@ export default function DashBoard({ onIfcFileLoad,onComponentsSet}){
         setObcComponents(components);
     },[])
 
-    const handleFileLoad = (loadedFile) => {
-        console.log("Received data", loadedFile)
-        setCsvData(loadedFile);
-    }
+    // called when app passes the loaded model
+    useEffect(() => {
+        if(loadedIfcModel)
+            setIfcModel(loadedIfcModel)
+    },[loadedIfcModel])
 
-    const handleIFCLoad = (loadedifcFile) => {
-        console.log("upload complete")
-        setIfcModel(loadedifcFile);
-    }
-
-
+    // called once we set the model from setIfcModel
     useEffect(() => {
         console.log("dashBoard getting elements start")
 
@@ -60,20 +52,12 @@ export default function DashBoard({ onIfcFileLoad,onComponentsSet}){
             var newBuildingElements = await GetBuildingElements(ifcModel, obcComponents)
             var data = getStationBarChartArray(newBuildingElements);
             setBarChartData(data)
-
-
             setBuildingElements(newBuildingElements);
         }
 
         if(obcComponents && ifcModel)
-            {
                 asyncGetElements();
-                console.log("dashBoard getting elements", buildingElements)
-                onIfcFileLoad(ifcModel);
-                onComponentsSet(obcComponents);
-
-
-            }  
+                // console.log("dashBoard getting elements", buildingElements)
         },[ifcModel] )
 
   return<>
@@ -90,9 +74,6 @@ export default function DashBoard({ onIfcFileLoad,onComponentsSet}){
             {/* <Box component={"div"}>
                 <UploadCsvButton onFileLoad={handleFileLoad}/>
             </Box> */}
-            <Box component={"div"}>
-                <UploadIfcButton onIfcFileLoad={handleIFCLoad}/>
-            </Box>
         </Box>
 
         {/* {Grid} */}
@@ -163,29 +144,4 @@ export default function DashBoard({ onIfcFileLoad,onComponentsSet}){
     </Box>
   </>
 }
-
-            {/* <Box
-                gridColumn={'span 5'}
-                gridRow={'span 2'}
-                backgroundColor={colors.primary[400]}
-                display='flex'
-                alignContent="center"
-                justifyContent="center"
-                >
-                    <Box
-                mt="25px"
-                p="0 30px"
-                display="flex"
-                justifyContent="space-between"
-                alignItems="center">
-                    <Box>
-                        <Typography variant="h8" fontWeight={"600"} color={colors.grey[100]}>
-                            Building Elements
-                        </Typography>
-                    </Box>
-                </Box>
-                <Box height="250px" width={"90%"}>
-                    <ElementGrid data={csvData} isDashboard={true}/>
-                </Box>
-            </Box> */}
 

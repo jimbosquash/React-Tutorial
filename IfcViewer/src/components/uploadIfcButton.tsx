@@ -12,28 +12,19 @@ import { GetBuildingElements } from "../utilities/IfcUtilities";
 async function readIfcFile(file: File, containerRef : React.RefObject<HTMLElement | undefined>) : Promise<FRAGS.FragmentsGroup | undefined> {
     const components = SetUpIfcComponents(containerRef);
     //components.uiEnabled = false;
-
-    const fragmentIfcLoader = components.tools.get(OBC.FragmentIfcLoader);
-
-    const data = await file.arrayBuffer();
-    const buffer = new Uint8Array(data);
-    const loadedModel = await fragmentIfcLoader.load(buffer);
-
-    const propsProcessor = components.tools.get(OBC.IfcPropertiesProcessor);
-    propsProcessor.process(loadedModel);
-
-    const foundElements = await GetBuildingElements(loadedModel,components);
+    const loadedModel = await components.tools.get(OBC.FragmentIfcLoader).load(new Uint8Array(await file.arrayBuffer()));
+    components.tools.get(OBC.IfcPropertiesProcessor).process(loadedModel);
     //console.log(foundElements);
     return loadedModel;
   }
 
 
-
   interface UploadIfcButtonProps {
       onIfcFileLoad: (model: any) => void;
+      setFileName: (name: string) => void;
   }
   
-  const UploadIfcButton: React.FC<UploadIfcButtonProps> = ({ onIfcFileLoad }) => {
+  const UploadIfcButton: React.FC<UploadIfcButtonProps> = ({ onIfcFileLoad, setFileName }) => {
       const containerRef = useRef<HTMLElement>(null);
       const theme = useTheme();
       const colors = tokens(theme.palette.mode);
@@ -42,8 +33,11 @@ async function readIfcFile(file: File, containerRef : React.RefObject<HTMLElemen
           const file = event.target.files ? event.target.files[0] : null;
           if (file) {
               console.log("Start loading IFC file:", file.name);
-              const loadedModel = await readIfcFile(file, containerRef); // Ensure readIfcFile is defined and imported
-              onIfcFileLoad(loadedModel);
+              const loadedModel = await readIfcFile(file, containerRef); 
+              console.log(onIfcFileLoad)
+              if(onIfcFileLoad)
+                onIfcFileLoad(loadedModel);
+              setFileName(file.name)
           }
       };
   

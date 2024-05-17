@@ -10,50 +10,10 @@ import { MeshStandardMaterial } from "three";
 import { IfcPropertiesUtils } from "openbim-components";
 
 
-export function LoadModel({ifcModel}) {
-    console.log("loading begins: ",ifcModel)
-    const setTempModel = () => {
-        console.log("temp model being set")
-        const geometry = new THREE.BoxGeometry()
-        const material = new THREE.MeshBasicMaterial()
-        return new THREE.Mesh(geometry, material)
-    }
-
-    // Get the scene from the underlying instance of threejs
-    const { scene } = useThree()
-    // State that will contain the rendered model at everytime, starts with a temporary cube
-    const [meshObj, setMeshObj] = useState<any>(setTempModel())
-
-    // On component mount, load the IFC model
-    // On component unmount, clear the IFC model
-    useEffect(() => {
-        setMeshObj(setTempModel());
-
-        if (ifcModel) {
-            console.log("seting meshes: ",ifcModel)
-            setMeshObj(ifcModel);
-        }
-        else
-        {
-            console.log("no container ref")
-        }
-
-        return () => {
-            console.log('removing model')
-            // IMPORTANT NOTE: It might be wise to use the ".dispose" method available from OBC components to dispose all OBC elements, not just the model in threejs
-            if (ifcModel && scene.children.includes(ifcModel)) {
-                scene.remove(ifcModel);
-            }
-        }
-    },[ifcModel])
-
-    // Idea: might be possible to use <Suspense> here and create a loading state, instead of the temp cube
-    console.log("Load Model function: ", meshObj)
-    return <primitive object={meshObj} />;
-}
 
 
 
+// copied from components forum and not currently in use
 export default function HandleIFC({ containerRef, path, name, propertiesPath}) {
 
     //Function to return a temporary mesh with just a box while the IFC has not loaded
