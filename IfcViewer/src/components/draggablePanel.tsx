@@ -1,5 +1,7 @@
-import React, {useState} from "react";
+import { useTheme } from "@mui/material";
+import React, {useEffect, useState} from "react";
 import Draggable from "react-draggable";
+import { tokens } from "../theme";
 import  "./styles.css";
 
 interface DataGridProps {
@@ -8,8 +10,17 @@ interface DataGridProps {
 }
 
 export const DraggablePanel = ({children}) => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
     const [position,setPosition] = useState({x:20, y:20})
     const snapThreshold = 30;
+
+    useEffect(() => {
+        setPosition({x: window.innerWidth - 400, y: window.innerHeight -750})
+    }, [])
+    
+
+
 
     const handleDrag = (e, ui) => {
         setPosition({x: ui.x, y: ui.y})
@@ -22,15 +33,15 @@ export const DraggablePanel = ({children}) => {
 
         if(x < snapThreshold) {
             x=70;
-        } else if (x > innerWidth - snapThreshold - 200) // 200 is the panel width
+        } else if (x > innerWidth - snapThreshold - 350) // 200 is the panel width
         {
-            x = innerWidth - 230;
+            x = innerWidth - 400;
         }
 
         if(y <snapThreshold) {
-            y= 0;
-        } else if( y > innerHeight - snapThreshold - 100) {
-            y = innerHeight - 150;
+            y= 40;
+        } else if( y > innerHeight - snapThreshold - 700) {
+            y = innerHeight - 750;
         }
 
         setPosition({x,y})
@@ -40,11 +51,11 @@ export const DraggablePanel = ({children}) => {
 
     return(<>
     <Draggable
-        position={position}
+   position={position}
         onDrag={handleDrag}
         onStop={handleStop}
     >
-        <div className="draggable-panel">
+        <div className="draggable-panel"  style={{backgroundColor: colors.primary[400]}}>
             {children}
         </div>
 
