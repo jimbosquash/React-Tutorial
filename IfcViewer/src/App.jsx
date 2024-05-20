@@ -58,7 +58,7 @@ const handleComponentsLoad = (newComponents) => {
                 <Route path='/dashboard' element={<DashBoard  loadedIfcModel={ifcFile} />} />
                 <Route path='/table' element={<ElementTable />} />
                 <Route path='/viewerOpenBim' element={<Viewer />} />
-                <Route path='/viewerFiber' element={<ViewerFiber ifcModel={ifcFile}/>} />
+                <Route path='/viewerFiber' element={<ViewerFiber ifcModel={ifcFile} components={components}/>} />
                 <Route path='/viewerFun' element={<ViewerFun />} />
                 <Route path='/viewerSpeckle' element={<ViewerSpeckle />} />
                 {/* <Route path='/barChart' element={<Bar />} /> */}

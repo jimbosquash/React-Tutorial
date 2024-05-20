@@ -5,21 +5,52 @@ import {useEffect, useState} from 'react'
 import LoadModel from '../../utilities/modelLoader';
 import React from 'react';
 import * as FRAGS from "bim-fragment";
+import { buildingElement, GetBuildingElements } from '../../utilities/IfcUtilities';
+import DraggableDataGrid from '../../components/draggabeDataGrid';
+import DraggablePanel from '../../components/draggablePanel';
 
-export default function ViewerFiber({ifcModel})
+
+export default function ViewerFiber({ifcModel, components})
 {
     // const containerRef = useRef(null);                               //only need this if passing it into the ifc creation object
     const [fragGroup,setFragGroup] = useState<FRAGS.FragmentsGroup>();
+    const [loading, setLoading] = useState(false);
+    const [buildingElements, setBuildingElements] = useState<buildingElement[]>([]);
+
 
     useEffect(() => {
-        if(ifcModel)
-            setFragGroup(ifcModel);
-        
-    },[ifcModel])
+        const fetchBuildingElements = async () => {
+            if(ifcModel) {
+                setLoading(true)
+                setFragGroup(ifcModel);
+                try{
+                    const newBuildingElements = await GetBuildingElements(ifcModel,components);
+                    setBuildingElements(newBuildingElements);
+                 } catch (error) {
+                    console.error("Error fetching building elements",error)
+                } finally {
+                    setLoading(false)
+                }
+            }
+        };
 
+        fetchBuildingElements();
+    },[ifcModel,components]);
 
-    console.log('viewer')
+    useEffect(() => {
+        console.log("elements changed, grouping starting")
+
+        //set data for table
+    }, [buildingElements])
+
+    if(loading) return <div>Loading...</div>;
+
     return (
+        <>
+        <DraggablePanel>
+            <h3> Building Elements</h3>
+            <DraggableDataGrid data={buildingElements}/>
+        </DraggablePanel>
         <Canvas
         // ref={containerRef}
         shadows
@@ -41,5 +72,6 @@ export default function ViewerFiber({ifcModel})
             fadeDistance={25}
             fadeStrength={1}/>
     </Canvas>
+    </>
       );
 }

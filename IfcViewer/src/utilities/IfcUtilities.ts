@@ -8,6 +8,7 @@ export interface buildingElement {
     expressID: number;
     GlobalID: string;
     type: number;
+    name: string;
     properties: {name: string, value: string}[]
 }
 
@@ -118,18 +119,25 @@ export function getUniqueElementCount(elements: buildingElement[])
 
 export async function GetBuildingElements(loadedModel : FRAGS.FragmentsGroup, components : OBC.Components)
 {
+    if(!components)
+    {
+        console.log('compoenets not set, getBuildingELements exiting')
+        return [];
+    }
     const propsProcessor = components.tools.get(OBC.IfcPropertiesProcessor);
     const foundElements: buildingElement[] = [];
     await OBC.IfcPropertiesUtils.getRelationMap(loadedModel,WEBIFC.IFCRELDEFINESBYPROPERTIES,(async (propertySetID, _relatedElementsIDs) => { 
 
         var element = await propsProcessor.getProperties(loadedModel,_relatedElementsIDs.toString());
-            
-        if(element)
+        if(element && element[0])
             {
+                console.log("element", element[0].Name)
+
                 const newElement : buildingElement = {
                     expressID: element[0].expressID,
                     GlobalID: element[0].GlobalId.value,
                     type: element[0].type,
+                    name: element[0].Name.value,
                     properties: []
                 };                
                 OBC.IfcPropertiesUtils.getPsetProps(loadedModel,propertySetID,(async (propertyId) => {
@@ -140,8 +148,19 @@ export async function GetBuildingElements(loadedModel : FRAGS.FragmentsGroup, co
                             name: property[0].Name.value,
                             value: property[0].NominalValue.value})
                     }
+
+                    if (property) {
+                        const propertyName = property[0].Name?.value;
+                        const propertyValue = property[0].NominalValue?.value;
+                        if (propertyName) {
+                          newElement.properties.push({ name: propertyName, value: propertyValue });
+                        }
+
+                        // if(propertyName && propertyName.toLowerCase === "name")
+                        //     {newElement.name = propertyValue;}
+
+                    }
                 }))
-                //console.log("new element: ",newElement);
                 foundElements.push(newElement)
             }
     } ))
