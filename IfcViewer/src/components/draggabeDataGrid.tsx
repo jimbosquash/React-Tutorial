@@ -91,17 +91,20 @@ export const DraggabeDataGrid: React.FC<DraggableDataGridProps> = ({ data }): JS
                     borderBottom: "none",
                   },
                   "& .name-column--cell": {
-                    color: colors.greenAccent[300],
+                    color: colors.blueAccent[700],
                   },
                   "& .MuiDataGrid-columnHeaders": {
                     backgroundColor: colors.blueAccent[700],
                     borderBottom: "none",
                   },
                   "& .MuiDataGrid-virtualScroller": {
-                    backgroundColor: colors.primary[400],
+                    border: "none",
+                    // backgroundColor: colors.primary[400],
                   },
                   "& .MuiDataGrid-footerContainer": {
                     borderTop: "none",
+                    border: "none",
+
                     backgroundColor: colors.blueAccent[700],
                   },
                   "& .MuiCheckbox-root": {

@@ -1,7 +1,7 @@
 import { useTheme } from "@mui/material";
 import React, {useEffect, useState} from "react";
 import Draggable from "react-draggable";
-import { tokens } from "../theme";
+import { tokens,themeSettings } from "../theme";
 import  "./styles.css";
 
 interface DataGridProps {
@@ -12,6 +12,7 @@ interface DataGridProps {
 export const DraggablePanel = ({children}) => {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
+    const backgroundColor = themeSettings(theme.palette.mode);
     const [position,setPosition] = useState({x:20, y:20})
     const snapThreshold = 30;
 
@@ -47,21 +48,40 @@ export const DraggablePanel = ({children}) => {
         setPosition({x,y})
 
     }
-
+    const headerStyle = {
+        cursor: 'grab',
+    }
+    const dragPanelStyle = {
+        position: "absolute",
+        top: "20px",
+        left: '20px',
+        width: "350px",
+        height: "700px",
+        padding: "10px",
+    }
 
     return(<>
     <Draggable
    position={position}
         onDrag={handleDrag}
         onStop={handleStop}
+        handle=".panel-header"
     >
-        <div className="draggable-panel"  style={{backgroundColor: colors.primary[400]}}>
+        <div className="draggable-panel" style={{ backgroundColor:colors.primary[400]}}>
+        <div className="panel-header" style={{ cursor: 'grab', padding: '0px'}}>
+            <h3 > Building Elements</h3>
+        </div>
+        <div >
             {children}
         </div>
+        </div>
+        
 
     </Draggable>
     </>
     )
 }
+
+
 
 export default DraggablePanel;

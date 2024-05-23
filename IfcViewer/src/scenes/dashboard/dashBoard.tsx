@@ -90,11 +90,9 @@ export default function DashBoard({loadedIfcModel}){
             gap='20px'>
         <SummaryRow data={ifcModel} components={obcComponents}/>
             {/* //Row 2 */}
-            
-
             <Box
                 component={"div"}
-                gridColumn="span 6"
+                gridColumn="span 9"
                 gridRow="span 3"
                 style={boxStyle}                
                 >
@@ -119,7 +117,7 @@ export default function DashBoard({loadedIfcModel}){
             <Box
             style={boxStyle}
             component={"div"}
-            gridColumn="span 6"
+            gridColumn="span 3"
             gridRow="span 3"
             >
                 <Box
@@ -136,7 +134,6 @@ export default function DashBoard({loadedIfcModel}){
                     </Box>
                 </Box>
                 <Box  component={"div"} ml="10px" mb="-70px" width={"90%"} height={"90%"}>
-                    {/* <Bar isDashboard={true}/> */}
                     <MyResponsivePie/>
                 </Box>
             </Box>

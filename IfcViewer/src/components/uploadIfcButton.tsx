@@ -5,14 +5,16 @@ import * as OBC from "openbim-components";
 import * as FRAGS from "bim-fragment";
 import {tokens} from "../theme"
 import SetUpIfcComponents from "./setUpIfcComponents";
-import { GetBuildingElements } from "../utilities/IfcUtilities";
 
 
 
 async function readIfcFile(file: File, containerRef : React.RefObject<HTMLElement | undefined>) : Promise<FRAGS.FragmentsGroup | undefined> {
     const components = SetUpIfcComponents(containerRef);
     //components.uiEnabled = false;
-    const loadedModel = await components.tools.get(OBC.FragmentIfcLoader).load(new Uint8Array(await file.arrayBuffer()));
+    let fragmentLoader = components.tools.get(OBC.FragmentIfcLoader);
+    fragmentLoader.settings.webIfc.COORDINATE_TO_ORIGIN = true;
+
+    const loadedModel = await fragmentLoader.components.tools.get(OBC.FragmentIfcLoader).load(new Uint8Array(await file.arrayBuffer()));
     components.tools.get(OBC.IfcPropertiesProcessor).process(loadedModel);
     //console.log(foundElements);
     return loadedModel;

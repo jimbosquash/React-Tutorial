@@ -54,7 +54,8 @@ const handleComponentsLoad = (newComponents) => {
             <main style={{ flex: 1, paddingLeft: '0px' }}> {/* Main content area */}
               <Topbar onIfcFileLoad={handleIFCLoad} onComponentsSet={handleComponentsLoad}/>
               <Routes>
-                <Route path='/' element={<LandingPage/>} />
+                {/* <Route path='/' element={<LandingPage/>} /> */}
+                <Route path='/' element={<DashBoard  loadedIfcModel={ifcFile} />} />
                 <Route path='/dashboard' element={<DashBoard  loadedIfcModel={ifcFile} />} />
                 <Route path='/table' element={<ElementTable />} />
                 <Route path='/viewerOpenBim' element={<Viewer />} />

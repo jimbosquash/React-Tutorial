@@ -73,7 +73,7 @@ export default function SummaryRow({data, components}) {
                 increase="+14%"
                 icon={
                     <Construction
-                        sx={{ color:colors.greenAccent[600],fontSize: "26px"}}
+                        sx={{ color:colors.greenAccent[500],fontSize: "26px"}}
                     />
                 }
                 />
@@ -87,12 +87,12 @@ export default function SummaryRow({data, components}) {
             >
                 <StatBox
                 title={uniqueProductCodes}
-                subtitle="Different Elements"
+                subtitle="Different Element types"
                 progress="0.12"
                 increase="+54%"
                 icon={
                     <Timer
-                        sx={{ color:colors.greenAccent[600],fontSize: "26px"}}
+                        sx={{ color:colors.greenAccent[500],fontSize: "26px"}}
                     />
                 }
                 />
@@ -105,12 +105,12 @@ export default function SummaryRow({data, components}) {
             >
                 <StatBox
                 title="1,432"
-                subtitle="Building Steps"
+                subtitle="Fasteners"
                 progress="0.86"
                 increase="-12%"
                 icon={
                     <ListAlt
-                        sx={{ color:colors.greenAccent[600],fontSize: "26px"}}
+                        sx={{ color:colors.greenAccent[500],fontSize: "26px"}}
                     />
                 }
                 />

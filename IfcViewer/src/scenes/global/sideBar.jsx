@@ -140,7 +140,7 @@ console.log(selected)
               setSelected={setSelected}
             />
           </Box>
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          {/* <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Fun"
               to="/ViewerFun"
@@ -148,9 +148,9 @@ console.log(selected)
               selected={selected}
               setSelected={setSelected}
             />
-          </Box>
+          </Box> */}
 
-          <Box paddingLeft={isCollapsed ? undefined : "10%"}>
+          {/* <Box paddingLeft={isCollapsed ? undefined : "10%"}>
             <Item
               title="Table"
               to="/table"
@@ -158,7 +158,7 @@ console.log(selected)
               selected={selected}
               setSelected={setSelected}
             />
-          </Box>
+          </Box> */}
         
         </Menu>
       </ProSidebar>

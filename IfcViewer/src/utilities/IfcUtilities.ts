@@ -34,9 +34,9 @@ export function getStationBarChartArray(elements: buildingElement[]) : any[]
             if(productCode.includes('UN')){
                 codeCategory = "UN"
             } 
-            // else if (productCode.includes("EP")){
-            //     codeCategory = "EP"
-            // } 
+            else if (productCode.includes("EP")){
+                codeCategory = "EP"
+            } 
             else if (productCode.includes("CE")) {
                 codeCategory = "CE"
             }
