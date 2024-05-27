@@ -51,15 +51,18 @@ const handleComponentsLoad = (newComponents) => {
         <BrowserRouter>
           <div style={{ display: 'flex', height: '100%' }}> {/* Flex container */}
             <Sidebar />
+            {/* <Topbar onIfcFileLoad={handleIFCLoad} onComponentsSet={handleComponentsLoad}/> */}
+
             <main style={{ flex: 1, paddingLeft: '0px' }}> {/* Main content area */}
               <Topbar onIfcFileLoad={handleIFCLoad} onComponentsSet={handleComponentsLoad}/>
               <Routes>
                 {/* <Route path='/' element={<LandingPage/>} /> */}
-                <Route path='/' element={<DashBoard  loadedIfcModel={ifcFile} />} />
+                {/* <Route path='/' element={<DashBoard  loadedIfcModel={ifcFile} />} /> */}
                 <Route path='/dashboard' element={<DashBoard  loadedIfcModel={ifcFile} />} />
                 <Route path='/table' element={<ElementTable />} />
                 <Route path='/viewerOpenBim' element={<Viewer />} />
                 <Route path='/viewerFiber' element={<ViewerFiber ifcModel={ifcFile} components={components}/>} />
+                <Route path='/' element={<ViewerFiber ifcModel={ifcFile} components={components}/>} />
                 <Route path='/viewerFun' element={<ViewerFun />} />
                 <Route path='/viewerSpeckle' element={<ViewerSpeckle />} />
                 {/* <Route path='/barChart' element={<Bar />} /> */}

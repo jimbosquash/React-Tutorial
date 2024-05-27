@@ -4,10 +4,6 @@ import Draggable from "react-draggable";
 import { tokens,themeSettings } from "../theme";
 import  "./styles.css";
 
-interface DataGridProps {
-    // columns: Column[];
-    data: any[];
-}
 
 export const DraggablePanel = ({children}) => {
     const theme = useTheme();
@@ -81,6 +77,8 @@ export const DraggablePanel = ({children}) => {
     </>
     )
 }
+
+
 
 
 

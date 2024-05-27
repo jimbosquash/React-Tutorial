@@ -1,4 +1,4 @@
-import { Box, IconButton, InputBase, Typography, useTheme } from "@mui/material";
+import { Box, Button, IconButton, InputBase, Typography, useTheme } from "@mui/material";
 import {useContext, useState, useEffect} from "react"
 import { ColorModeContext, tokens } from "../../theme";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -8,13 +8,42 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import SearchIcon from "@mui/icons-material/Search";
 import UploadIfcButton from "../../components/uploadIfcButton";
+import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
+import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import { Link } from "react-router-dom";
+import React from "react";
 
+const RoutingButton = ({ title, to, icon, selected, setSelected }) => {
+    const theme = useTheme();
+    const colors = tokens(theme.palette.mode);
+    return (
+        <Link>
+        <IconButton
+        active="true"
+        style={{
+          color: colors.grey[100],
+        }}
+        onClick={() => {
+            setSelected(title)
+            console.log(to)
+        }}
+        icon={icon}
+        to={to}
+      >
+        {icon}
+        {/* <Typography>{title}</Typography> */}
+        </IconButton>
+    </Link>
+    );
+  };
 
 export default function Topbar({onComponentsSet,onIfcFileLoad}) {
     const theme = useTheme();
     const colors = tokens(theme.palette.mode);
     const colorMode = useContext(ColorModeContext);
-    const [fileName, setFileName] = useState();
+    const [fileName, setFileName] = useState("");
+    const [selected, setSelected] = useState("dashboard");
+
 
     const handleIFCLoad = (ifcModel) => {
         onIfcFileLoad(ifcModel)
@@ -44,9 +73,20 @@ export default function Topbar({onComponentsSet,onIfcFileLoad}) {
             <IconButton onClick={colorMode.toggleColorMode}>
                 {theme.palette.mode === "dark" ?(<DarkModeOutlinedIcon/>) : (<LightModeOutlinedIcon/>)}
             </IconButton>
-            {/* <IconButton>
-                <SettingsOutlinedIcon/>
-            </IconButton> */}
+            <RoutingButton 
+            title="Dashboard"
+            to="/dashboard"
+            icon={<MenuOutlinedIcon />}
+            selected={selected}
+            setSelected={setSelected}
+            />
+            <RoutingButton 
+            title="Viewer"
+            to="/viewerFiber"
+            icon={<HomeOutlinedIcon />}
+            selected={selected}
+            setSelected={setSelected}
+            />
             <Box mt="20px">
           
         </Box>

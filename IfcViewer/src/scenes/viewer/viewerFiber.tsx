@@ -9,7 +9,8 @@ import { buildingElement, GetBuildingElements } from '../../utilities/IfcUtiliti
 import DraggableDataGrid from '../../components/draggabeDataGrid';
 import DraggablePanel from '../../components/draggablePanel';
 import { tokens } from '../../theme';
-import { useTheme } from '@mui/material';
+import { Button, ButtonGroup, useTheme } from '@mui/material';
+import FloatingButtonGroup from './floatingButtonGroup';
 
 
 export default function ViewerFiber({ifcModel, components})
@@ -51,9 +52,10 @@ export default function ViewerFiber({ifcModel, components})
 //dampingFactor={0.08} rotateSpeed={0.3} zoomSpeed={0.9} panSpeed={0.4}
     return (
         <>
-        <DraggablePanel>
+        {/* <DraggablePanel>
             <DraggableDataGrid data={buildingElements}/>
-        </DraggablePanel>
+        </DraggablePanel> */}
+        <FloatingButtonGroup/>
         <Canvas
         // ref={containerRef}
         shadows
@@ -64,7 +66,7 @@ export default function ViewerFiber({ifcModel, components})
             position: [ - 4, 3, 6 ]
         } }>
             <GizmoHelper alignment="top-right" margin={[80, 50]}>
-                <GizmoViewcube color={colors.greenAccent[500]}/>
+                <GizmoViewcube color={colors.primary[400]} textColor={colors.grey[100]} strokeColor={colors.grey[100]}/>
             </GizmoHelper>            
             <OrbitControls makeDefault dampingFactor={0.08}/>
             <directionalLight castShadow position={ [ 1, 2, 3 ] } intensity={ 4.5 } />

@@ -79,6 +79,7 @@ export const DraggabeDataGrid: React.FC<DraggableDataGridProps> = ({ data }): JS
     return (
         <Box component={"div"}  m='20px'width='90%' maxWidth="80vw" overflow="hidden">
             <Box component={"div"}>
+            
                 <DataGrid 
                 //m="40px 0 0 0"
                 //width="100%"
